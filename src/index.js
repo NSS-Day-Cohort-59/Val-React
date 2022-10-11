@@ -4,8 +4,4 @@ import './index.css'
 import { DecorationStation } from './components/DecorationStation'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
-root.render(
-  <React.StrictMode>
-    <DecorationStation />
-  </React.StrictMode>
-)
+root.render(<DecorationStation />)

@@ -1,21 +1,26 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+
+// {
+//   "id": 1,
+//   "name": "Skeleton Plates",
+//   "imageUrl": "https://images.kirklands.com/is/image/Kirklands/279661?hei=300&qlt=85,1&wid=300&fmt=jpeg&resMode=bicub&op_sharpen=1",
+//   "seasonId": 1,
+//   "categoryId": 4
+// }
 
 export const NewDecorationForm = ({
-  userChoices,
-  setUserChoices,
   seasons,
-  setItems,
+  categoriesOptions,
+  itemSetterFunction,
 }) => {
-  const [categories, setCategories] = useState([])
+  const [userChoices, setUserChoices] = useState({
+    name: '',
+    imageUrl: '',
+    seasonId: 0,
+    categoryId: 0,
+  })
 
-  useEffect(() => {
-    fetch('http://localhost:8088/categories')
-      .then((res) => res.json())
-      .then((categoriesData) => {
-        setCategories(categoriesData)
-      })
-  }, [])
-
+  // Undefined, '', 0, null
   const handleSaveDecoration = (evt) => {
     evt.preventDefault()
 
@@ -31,23 +36,21 @@ export const NewDecorationForm = ({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(userChoices),
-      })
-        .then((res) => res.json())
-        .then(() => {
-          fetch('http://localhost:8088/items')
-            .then((res) => res.json())
-            .then((itemsData) => {
-              setItems(itemsData)
-              setUserChoices({
-                name: '',
-                imageUrl: '',
-                seasonId: 0,
-                categoryId: 0,
-              })
+      }).then(() => {
+        fetch(`http://localhost:8088/items`)
+          .then((res) => res.json())
+          .then((itemsArray) => {
+            itemSetterFunction(itemsArray)
+            setUserChoices({
+              name: '',
+              imageUrl: '',
+              seasonId: 0,
+              categoryId: 0,
             })
-        })
+          })
+      })
     } else {
-      alert('Please complete form')
+      alert('Yo, fill out my form.')
     }
   }
 
@@ -56,13 +59,13 @@ export const NewDecorationForm = ({
       <h2 className="decoration-form-title">Add a decoration to the catalog</h2>
       <fieldset>
         <div className="form-group">
-          <label htmlFor="name">Name:</label>
+          <label htmlFor="name">Name: </label>
           <input
             required
             id="name"
             type="text"
             className="form-control"
-            placeholder="Item"
+            placeholder="Item name"
             value={userChoices.name}
             onChange={(event) => {
               const copy = { ...userChoices }
@@ -74,13 +77,13 @@ export const NewDecorationForm = ({
       </fieldset>
       <fieldset>
         <div className="form-group">
-          <label htmlFor="imgUrl">Image URL:</label>
+          <label htmlFor="imgUrl">Image URL: </label>
           <input
             required
             id="imgUrl"
             type="text"
             className="form-control"
-            placeholder="https://www.example.com"
+            placeholder="example.com"
             value={userChoices.imageUrl}
             onChange={(event) => {
               const copy = { ...userChoices }
@@ -92,22 +95,22 @@ export const NewDecorationForm = ({
       </fieldset>
       <fieldset>
         <div className="form-group">
-          <div>Season:</div>
-          {seasons.map((season) => {
+          <div>Season: </div>
+          {seasons.map((seasonObj) => {
             return (
-              <div key={season.id} className="radio">
+              <div key={seasonObj.id} className="radio">
                 <label>
                   <input
                     type="radio"
-                    value={season.id}
-                    checked={userChoices.seasonId === season.id}
+                    value={seasonObj.id}
+                    checked={userChoices.seasonId === seasonObj.id}
                     onChange={(event) => {
                       const copy = { ...userChoices }
                       copy.seasonId = parseInt(event.target.value)
                       setUserChoices(copy)
                     }}
                   />
-                  {season.name}
+                  {seasonObj.name}
                 </label>
               </div>
             )
@@ -116,22 +119,22 @@ export const NewDecorationForm = ({
       </fieldset>
       <fieldset>
         <div className="form-group">
-          <div>Category:</div>
-          {categories.map((category) => {
+          <div>Category: </div>
+          {categoriesOptions.map((categoryObj) => {
             return (
-              <div key={category.id} className="radio">
+              <div key={categoryObj.id} className="radio">
                 <label>
                   <input
                     type="radio"
-                    value={category.id}
-                    checked={userChoices.categoryId === category.id}
+                    value={categoryObj.id}
+                    checked={userChoices.categoryId === categoryObj.id}
                     onChange={(event) => {
                       const copy = { ...userChoices }
                       copy.categoryId = parseInt(event.target.value)
                       setUserChoices(copy)
                     }}
                   />
-                  {category.name}
+                  {categoryObj.name}
                 </label>
               </div>
             )

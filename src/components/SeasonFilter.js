@@ -1,20 +1,25 @@
-export const SeasonFilter = ({ seasonChoice, setSeasonChoice, seasons }) => {
+/*
+{
+  setSeasonChoiceId: 
+  seasons: 
+}
+*/
+export const SeasonFilter = ({ setterFunction, seasonsArr }) => {
   return (
     <select
       className="filter-box"
       id="season-select"
-      value={seasonChoice}
       onChange={(event) => {
-        setSeasonChoice(parseInt(event.target.value))
+        setterFunction(parseInt(event.target.value))
       }}
     >
-      <option key="0" value="0">
+      <option key={0} value="0">
         All Seasons
       </option>
-      {seasons.map((season) => {
+      {seasonsArr.map((seasonObj) => {
         return (
-          <option key={season.id} value={season.id}>
-            {season.name}
+          <option key={seasonObj.id} value={seasonObj.id}>
+            {seasonObj.name}
           </option>
         )
       })}

@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react'
+import { ItemsList } from './ItemsList'
+import { NewDecorationForm } from './NewDecorationForm'
+import { SeasonFilter } from './SeasonFilter'
 import './styles.css'
 
 export const DecorationStation = () => {
@@ -6,6 +9,7 @@ export const DecorationStation = () => {
   const [seasons, setSeasons] = useState([])
   const [seasonChoiceId, setSeasonChoiceId] = useState(0)
   const [filteredItems, setFilteredItems] = useState([])
+  const [categories, setCategories] = useState([])
 
   // Use Effect watches for state change
   // It takes two arguments, a function and an array
@@ -24,14 +28,16 @@ export const DecorationStation = () => {
       .then((seasonsArray) => {
         setSeasons(seasonsArray)
       })
+
+    fetch('http://localhost:8088/categories')
+      .then((res) => res.json())
+      .then((categoriesArray) => {
+        setCategories(categoriesArray)
+      })
   }, []) // An empty dependency array will watch for the initial render of the component and only run the callback on that  initial run.
 
-  // In this use effect's dependency array, we added the items state variable
-  // Therefore, anytime the value of items is changed (state changed), the callback function will run
-  useEffect(() => {
-    console.log(`Items changed! : `, items)
-  }, [items])
-
+  // In this use effect's dependency array, we added the items and seasonChoiceId state variables
+  // Therefore, anytime the value of items or seasonChoiceId is changed (state changed), the callback function will run
   useEffect(() => {
     if (seasonChoiceId === 0) {
       setFilteredItems(items)
@@ -40,42 +46,18 @@ export const DecorationStation = () => {
         (itemObj) => itemObj.seasonId === seasonChoiceId
       )
       setFilteredItems(seasonChoiceItems)
-      // setItems(seasonChoiceItems)
     }
   }, [seasonChoiceId, items])
 
   return (
     <>
-      <select
-        className="filter-box"
-        id="season-select"
-        onChange={(event) => {
-          setSeasonChoiceId(parseInt(event.target.value))
-        }}
-      >
-        <option value="0">All Seasons</option>
-        {seasons.map((seasonObj) => {
-          return (
-            <option key={seasonObj.id} value={seasonObj.id}>
-              {seasonObj.name}
-            </option>
-          )
-        })}
-      </select>
-      <div className="items-container">
-        {filteredItems.map((itemObj) => {
-          return (
-            <div className="item-card" key={itemObj.id}>
-              <img
-                src={itemObj.imageUrl}
-                alt={itemObj.name}
-                className="item-img"
-              />
-              <div className="item-name">{itemObj.name}</div>
-            </div>
-          )
-        })}
-      </div>
+      <SeasonFilter setterFunction={setSeasonChoiceId} seasonsArr={seasons} />
+      <NewDecorationForm
+        seasons={seasons}
+        categoriesOptions={categories}
+        itemSetterFunction={setItems}
+      />
+      <ItemsList filteredItems={filteredItems} />
     </>
   )
 }

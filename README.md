@@ -12,3 +12,13 @@
 - Event Handling
 - Styling
 - React Dev Tools
+
+#### Part 2:
+
+- Forms
+- Fetch (Post)
+- Event Handling
+- Breaking things into smaller components
+- Props
+  - dot notation vs destructuring
+- React Dev Tools

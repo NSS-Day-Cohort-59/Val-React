@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // {
 //   "id": 1,
@@ -8,19 +8,30 @@ import { useState } from 'react'
 //   "categoryId": 4
 // }
 
-export const NewDecorationForm = ({
-  seasons,
-  categoriesOptions,
-  itemSetterFunction,
-}) => {
+export const NewDecorationForm = () => {
   const [userChoices, setUserChoices] = useState({
     name: '',
     imageUrl: '',
     seasonId: 0,
     categoryId: 0,
   })
+  const [seasons, setSeasons] = useState([])
+  const [categories, setCategories] = useState([])
 
-  // Undefined, '', 0, null
+  useEffect(() => {
+    fetch('http://localhost:8088/seasons')
+      .then((res) => res.json())
+      .then((seasonsData) => {
+        setSeasons(seasonsData)
+      })
+
+    fetch('http://localhost:8088/categories')
+      .then((res) => res.json())
+      .then((categoriesData) => {
+        setCategories(categoriesData)
+      })
+  }, [])
+
   const handleSaveDecoration = (evt) => {
     evt.preventDefault()
 
@@ -40,13 +51,7 @@ export const NewDecorationForm = ({
         fetch(`http://localhost:8088/items`)
           .then((res) => res.json())
           .then((itemsArray) => {
-            itemSetterFunction(itemsArray)
-            setUserChoices({
-              name: '',
-              imageUrl: '',
-              seasonId: 0,
-              categoryId: 0,
-            })
+            //? What do we do now?
           })
       })
     } else {
@@ -120,7 +125,7 @@ export const NewDecorationForm = ({
       <fieldset>
         <div className="form-group">
           <div>Category: </div>
-          {categoriesOptions.map((categoryObj) => {
+          {categories.map((categoryObj) => {
             return (
               <div key={categoryObj.id} className="radio">
                 <label>

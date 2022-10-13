@@ -1,10 +1,14 @@
 import { Link } from 'react-router-dom'
 import './NavBar.css'
+import logo from '../../assets/logo.png'
 
 export const NavBar = () => {
   return (
     <ul className="navbar">
-      <li className="navbar__item active">
+      <Link className="logo__link navbar__link" to="/">
+        <img className="logo__img" src={logo} alt="Decoration Station Logo" />
+      </Link>
+      <li className="navbar__item">
         <Link className="navbar__link" to="/halloween">
           Halloween
         </Link>

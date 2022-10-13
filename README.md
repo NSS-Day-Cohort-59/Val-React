@@ -22,3 +22,20 @@
 - Props
   - dot notation vs destructuring
 - React Dev Tools
+
+#### Part 3:
+
+- Router
+  - \<Routes>
+  - \<Route>
+  - Path
+  - Element
+  - Nested routes and <Outlet>
+  - Must have a root path route
+  - The \* path
+  - Navbar
+    - \<Link>
+    - To
+- useNavigate()
+- Route parameters
+- React Dev Tools

@@ -26,6 +26,7 @@
 #### Part 3:
 
 - Router
+  - \<BrowserRouter>
   - \<Routes>
   - \<Route>
   - Path
@@ -37,5 +38,7 @@
     - \<Link>
     - To
 - useNavigate()
+- Fetch with parameters, expand
+- Optional Chaining
 - Route parameters
 - React Dev Tools

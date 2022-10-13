@@ -1,12 +1,5 @@
 import { useEffect, useState } from 'react'
-
-// {
-//   "id": 1,
-//   "name": "Skeleton Plates",
-//   "imageUrl": "https://images.kirklands.com/is/image/Kirklands/279661?hei=300&qlt=85,1&wid=300&fmt=jpeg&resMode=bicub&op_sharpen=1",
-//   "seasonId": 1,
-//   "categoryId": 4
-// }
+import { useNavigate } from 'react-router-dom'
 
 export const NewDecorationForm = () => {
   const [userChoices, setUserChoices] = useState({
@@ -17,6 +10,8 @@ export const NewDecorationForm = () => {
   })
   const [seasons, setSeasons] = useState([])
   const [categories, setCategories] = useState([])
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetch('http://localhost:8088/seasons')
@@ -48,11 +43,9 @@ export const NewDecorationForm = () => {
         },
         body: JSON.stringify(userChoices),
       }).then(() => {
-        fetch(`http://localhost:8088/items`)
-          .then((res) => res.json())
-          .then((itemsArray) => {
-            //? What do we do now?
-          })
+        fetch(`http://localhost:8088/items`).then(() => {
+          navigate('/')
+        })
       })
     } else {
       alert('Yo, fill out my form.')

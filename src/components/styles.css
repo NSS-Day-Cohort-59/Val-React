@@ -19,11 +19,35 @@
   width: 20rem;
   margin: 1rem;
   box-shadow: 4px 3px 4px gray;
+  cursor: pointer;
+}
+
+.item-img:hover {
+  box-shadow: 3px 2px 3px gray;
 }
 
 .item-name {
   font-size: 1rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Item Details */
+
+.item-detail-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.item-detail-name {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 100;
+  font-size: 1.5rem;
+}
+
+.item-details {
+  font-size: 1.25rem;
+  font-family: monospace;
 }
 
 /* Filter */

@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 export const AllItems = () => {
   const [items, setItems] = useState([]) // returns an array: [stateVariable, setStatefunction] takes one argument: the initial value of the state variable
-  const navigate = useNavigate()
 
   // Use Effect watches for state change
   // It takes two arguments, a function and an array
@@ -18,10 +16,6 @@ export const AllItems = () => {
       })
   }, []) // An empty dependency array will watch for the initial render of the component and only run the callback on that  initial run.
 
-  const navigateToItemDetails = (itemId) => {
-    navigate(`/${itemId}`)
-  }
-
   return (
     <div className="items-container">
       {items.map((itemObj) => {
@@ -31,9 +25,6 @@ export const AllItems = () => {
               src={itemObj.imageUrl}
               alt={itemObj.name}
               className="item-img"
-              onClick={() => {
-                navigateToItemDetails(itemObj.id)
-              }}
             />
             <div className="item-name">{itemObj.name}</div>
           </div>

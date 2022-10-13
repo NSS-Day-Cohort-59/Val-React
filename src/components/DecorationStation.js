@@ -3,10 +3,5 @@ import { ApplicationViews } from './views/ApplicationViews'
 import './styles.css'
 
 export const DecorationStation = () => {
-  return (
-    <>
-      <NavBar />
-      <ApplicationViews />
-    </>
-  )
+  return <></>
 }
